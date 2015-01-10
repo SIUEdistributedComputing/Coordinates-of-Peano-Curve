@@ -1,0 +1,80 @@
+//Program Description: This Program Finds the List of Vertices for the Hilbert Curve 
+ // Provided How many Operations Wanted by User. The size is half that of a double's max because of the exponential growth of the number of points.
+ // Thus, arbitrary precision arithmetic is probably a want for use in future research.
+ 
+ //BUG: If preferred_Amount_of_Iterationssize is above 4 then, on my computer at least, you cannot see the first part calculated.
+ 
+ //Programmer: Teg Gagen
+ //Programmer Rights go to: Any active member in DISCOM
+
+#include <stdio.h>
+#include <cmath>
+#include <iostream>
+#include <iomanip>
+#include <vector>
+
+using namespace std;
+
+int main()
+{
+	double  preferred_Amount_of_Iterations = 0;
+	cout << "How many Iterations would you like?  ";
+	cin >> preferred_Amount_of_Iterations;
+	
+	//~Max Size: 1.7* pow(10,308); ~.5 Max Size: 8.5* pow(10,307);
+	double const squareEdgeLength = 8.5* pow(10,307);
+	double const twiceSquareEdgeLength = 1.7*pow(10,308);
+	
+	//Iteration of Hilbert Curve
+	for(double numOfIterations = 1; numOfIterations <= preferred_Amount_of_Iterations; numOfIterations++)
+	{
+	
+	double xCoordinate = 0;
+	double xSum = 0;
+	double ySum = 0;
+	
+	double vectorSize = pow(2,numOfIterations);
+	double doubleVectorSize = 2*vectorSize;
+	vector<double> allowedXValues(vectorSize);
+	vector<double> allowedRangeValues(vectorSize);
+	
+	//X Values
+	for(unsigned int i = 1; i <= allowedXValues.size(); i++)
+	{
+		//cout << "allowed x values to be placed into vector: " << xSum + 1/doubleVectorSize << endl;
+		allowedXValues[i-1]  = xSum + squareEdgeLength/doubleVectorSize;
+		xSum = xSum + twiceSquareEdgeLength/doubleVectorSize;
+	}
+
+//Y Values
+
+	
+	for(unsigned int j = 1; j <= allowedRangeValues.size(); j++)
+	{
+	//	cout << "allowed y values to be placed into vector: " << ySum + 1/doubleVectorSize<< endl;
+		allowedRangeValues[j-1]  = ySum + squareEdgeLength/doubleVectorSize;
+		ySum = ySum + twiceSquareEdgeLength/doubleVectorSize;
+		
+	}
+	
+	//(Mutually Independent) This outputs all the possible combinations (points)
+	
+	for( int i = 0; i < vectorSize;  i++)
+	{
+		allowedXValues[i];
+		xCoordinate = allowedXValues[i];
+		for( int j = 0; j < vectorSize; j++)
+		{
+			
+			cout << "{" << xCoordinate << "," << allowedRangeValues[j] << "}" << endl;
+			
+			
+		}
+
+	}
+	
+	
+cout << endl << endl << endl;
+	} 
+	return 0;
+}
